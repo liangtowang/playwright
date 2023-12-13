@@ -9,5 +9,17 @@ test('Login', async ({ page }) => {
 
   await page.waitForSelector('text=Login', {timeout: 5000});
   await page.getByRole('button', { name: 'Login' }).click();
+
+  await page.getByRole('link', { name: 'PIM' }).click();
+  await page.getByRole('link', { name: 'Add Employee' }).click();
   
+  const firstName = "Liang";
+  const lastName = "Wang";
+
+  await page.getByPlaceholder('First Name').fill(firstName);
+  await page.getByPlaceholder('Last Name').fill(lastName);
+
+  // Save
+  await page.getByRole('button', { name: 'Save' }).click();
+
 });
