@@ -19,6 +19,14 @@ test('Login', async ({ page }) => {
   await page.getByPlaceholder('First Name').fill(firstName);
   await page.getByPlaceholder('Last Name').fill(lastName);
 
+  // Add image 
+  // Start waiting for file chooser before clicking. 
+  const fileChooserPromise = page.waitForEvent('filechooser');
+  await page.locator('form').getByRole('img', { name: 'profile picture' }).click();
+
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles('./tests/fixtures/imageName.png');
+
   // Save
   await page.getByRole('button', { name: 'Save' }).click();
 
