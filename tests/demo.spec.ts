@@ -42,14 +42,7 @@ test('test add one employee', async () => {
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(testData.user.imagePath);
 
-  const idExists = page.getByText('Employee Id already exists', { exact: true });
-  if (idExists !== null) {
-    // Cancel
-    await page.getByRole('button', { name: 'Cancel' }).click();
-  } else {
-    // Save
-    await page.getByRole('button', { name: 'Save' }).click();
-  }
+  await page.getByRole('button', { name: 'Save' }).click();
 });
 
 test('test search employee', async () => {
@@ -81,22 +74,7 @@ test('test add multiple employees', async () => {
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(employees[i].imagePath);
 
-    const idExists = page.getByText('Employee Id already exists', { exact: true });
-    if (idExists !== null) {
-      // Cancel
-      await page.getByRole('button', { name: 'Cancel' }).click();
-    } else {
-      // Save
-      await page.getByRole('button', { name: 'Save' }).click();
-
-      const success = page.getByText('Success', { exact: true });
-      if (success !== null) {
-        console.log('Employee added successfully.');
-        await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
-      } else {
-        console.log('Failed to add employee.');
-      }
-    }
+    await page.getByRole('button', { name: 'Save' }).click();
   }
 });
 
