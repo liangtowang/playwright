@@ -18,16 +18,15 @@ test.beforeEach(async ({ page }) => {
   await page.getByPlaceholder('Username').fill(loginData.admin.username);
   await page.getByPlaceholder('Password').fill(loginData.admin.password);
   await page.getByRole('button', { name: 'Login' }).click();
+
+  await expect(page).toHaveURL((loginData.url.dashboardURL)); 
+  await page.getByRole('link', { name: 'PIM' }).click();
 });
 
 test('test add one employee', async ({ page }) => {
   test.slow();
 
-  await page.goto(loginData.url.dashboardURL);
-
-  await page.getByRole('link', { name: 'PIM' }).click();
   await page.getByRole('link', { name: 'Add Employee' }).click();
-
   await page.getByPlaceholder('First Name').fill(testData.user.firstName);
   await page.getByPlaceholder('Last Name').fill(testData.user.lastName);
 
@@ -43,18 +42,9 @@ test('test add one employee', async ({ page }) => {
   if (idExists !== null) {
     // Cancel
     await page.getByRole('button', { name: 'Cancel' }).click();
-    console.log('Cancel adding employee.');
   } else {
     // Save
     await page.getByRole('button', { name: 'Save' }).click();
-
-    const success = page.getByText('Success', { exact: true });
-    if (success !== null) {
-      console.log('Employee added successfully.');
-      // await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
-    } else {
-      console.log('Failed to add employee.');
-    }
   }
 });
 
@@ -63,8 +53,6 @@ test('test add multiple employees', async ({ page }) => {
   test.slow();
 
   for (let i = 0; i < employees.length; i++) {
-    await page.goto(loginData.url.dashboardURL);
-    await page.getByRole('link', { name: 'PIM' }).click();
     await page.getByRole('link', { name: 'Add Employee' }).click();
 
     await page.getByPlaceholder('First Name').fill(employees[i].firstName);
@@ -95,14 +83,10 @@ test('test add multiple employees', async ({ page }) => {
       }
     }
   }
-
 });
 
 test('test search employee', async ({ page }) => {
-  await page.goto(loginData.url.dashboardURL);
-
   await page.getByRole('link', { name: 'PIM' }).click();
-  await page.getByRole('link', { name: 'Employee List' }).click();
 
   await page.getByPlaceholder('Type for hints...').first().fill(testData.user.firstName);
   await page.getByRole('button', { name: 'Search' }).click();
