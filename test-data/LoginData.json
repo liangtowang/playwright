@@ -1,7 +1,8 @@
 {
     "url": {
         "baseURL": "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
-        "dashboardURL": "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index"
+        "dashboardURL": "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index",
+        "viewProfileURL": "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewPersonalDetails/.*"
     },
     "admin": {
         "username": "Admin",

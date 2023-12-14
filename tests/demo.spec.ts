@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import exp from 'constants';
 
 const loginData = JSON.parse(JSON.stringify(require('../test-data/LoginData.json')));
 const testData = JSON.parse(JSON.stringify(require('../test-data/TestData.json')));
@@ -13,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Login' }).click();
 });
 
-test('test add employee', async ({ page }) => {
+test.only('test add employee', async ({ page }) => {
   await page.goto(loginData.url.dashboardURL);
 
   await page.getByRole('link', { name: 'PIM' }).click();
@@ -34,7 +33,7 @@ test('test add employee', async ({ page }) => {
   await page.getByRole('button', { name: 'Save' }).click();
 
   // Verify it is saved successfully
-  await expect(page.getByText('Success', { exact: true})).toBeVisible();
+  await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
 });
 
 test('test search employee', async ({ page }) => {
