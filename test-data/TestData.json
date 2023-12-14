@@ -2,31 +2,31 @@
     "user": {
         "firstName": "Liang",
         "lastName": "Wang",
-        "imageName": "imageName"
+        "imagePath": "./test-data/fixtures/imageName.png"
     },
     "userOne": {
         "firstName": "Test1",
         "lastName": "Testsson",
-        "imageName": "imageName"
+        "imagePath": "./test-data/fixtures/imageOne.png"
     },
     "userTwo": {
         "firstName": "Test2",
         "lastName": "Testsson",
-        "imageName": "imageName"
+        "imagePath": "./test-data/fixtures/imageTwo.png"
     },
     "userThree": {
         "firstName": "Test3",
         "lastName": "Testsson",
-        "imageName": "imageName"
+        "imagePath": "./test-data/fixtures/imageThree.png"
     },
     "userFour": {
         "firstName": "Test4",
         "lastName": "Testsson",
-        "imageName": "imageName"
+        "imagePath": "./test-data/fixtures/imageFour.png"
     },
     "userFive": {
         "firstName": "Test5",
         "lastName": "Testsson",
-        "imageName": "imageName"
+        "imagePath": "./test-data/fixtures/imageFive.png"
     }
 }
