@@ -1,4 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+test.describe.configure({ mode: 'serial' });
+let page: Page;
 
 const loginData = JSON.parse(JSON.stringify(require('../test-data/LoginData.json')));
 const testData = JSON.parse(JSON.stringify(require('../test-data/TestData.json')));
@@ -11,7 +13,11 @@ const employees = [
   testData.userFive
 ]
 
-test.beforeEach(async ({ page }) => {
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+});
+
+test('test login', async () => {
   // Runs before each test and signs in each page.
   await page.goto(loginData.url.baseURL);
   // Login with username and password
@@ -23,9 +29,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('link', { name: 'PIM' }).click();
 });
 
-test('test add one employee', async ({ page }) => {
-  test.slow();
-
+test('test add one employee', async () => {
   await page.getByRole('link', { name: 'Add Employee' }).click();
   await page.getByPlaceholder('First Name').fill(testData.user.firstName);
   await page.getByPlaceholder('Last Name').fill(testData.user.lastName);
@@ -48,7 +52,18 @@ test('test add one employee', async ({ page }) => {
   }
 });
 
-test('test add multiple employees', async ({ page }) => {
+test('test search employee', async () => {
+  await page.getByRole('link', { name: 'PIM' }).click();
+
+  await page.getByPlaceholder('Type for hints...').first().fill(testData.user.firstName);
+  await page.getByRole('button', { name: 'Search' }).click();
+
+  await page.getByRole('row', { name: testData.user.firstName }).first().click();
+
+  await expect(page.getByRole('heading', { name: testData.user.firstName })).toBeVisible();
+});
+
+test('test add multiple employees', async () => {
   // give it more time to run this test
   test.slow();
 
@@ -85,18 +100,6 @@ test('test add multiple employees', async ({ page }) => {
   }
 });
 
-test('test search employee', async ({ page }) => {
-  await page.getByRole('link', { name: 'PIM' }).click();
-
-  await page.getByPlaceholder('Type for hints...').first().fill(testData.user.firstName);
-  await page.getByRole('button', { name: 'Search' }).click();
-
-  await page.getByRole('row', { name: testData.user.firstName }).first().click();
-
-  await expect(page.getByRole('heading', { name: testData.user.firstName })).toBeVisible();
-});
-
-test.afterAll('Teardown', async ({ page }) => {
-  console.log('Done with tests');
+test.afterAll(async () => {
   await page.close();
 });
