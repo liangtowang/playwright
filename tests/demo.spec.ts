@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Login' }).click();
 });
 
-test.only('test add one employee', async ({ page }) => {
+test('test add one employee', async ({ page }) => {
   await page.goto(loginData.url.dashboardURL);
 
   await page.getByRole('link', { name: 'PIM' }).click();
