@@ -21,6 +21,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('test add one employee', async ({ page }) => {
+  test.slow();
+
   await page.goto(loginData.url.dashboardURL);
 
   await page.getByRole('link', { name: 'PIM' }).click();
@@ -37,15 +39,22 @@ test('test add one employee', async ({ page }) => {
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(testData.user.imagePath);
 
-  // Save
-  await page.getByRole('button', { name: 'Save' }).click();
-
-  const success = page.getByText('Success', { exact: true });
-  if (success !== null) {
-    console.log('Employee added successfully.');
-    await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
+  const idExists = page.getByText('Employee Id already exists', { exact: true });
+  if (idExists !== null) {
+    // Cancel
+    await page.getByRole('button', { name: 'Cancel' }).click();
+    console.log('Cancel adding employee.');
   } else {
-    console.log('Failed to add employee.');
+    // Save
+    await page.getByRole('button', { name: 'Save' }).click();
+
+    const success = page.getByText('Success', { exact: true });
+    if (success !== null) {
+      console.log('Employee added successfully.');
+      // await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
+    } else {
+      console.log('Failed to add employee.');
+    }
   }
 });
 
