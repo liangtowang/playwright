@@ -1,0 +1,10 @@
+{
+    "url": {
+        "baseURL": "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+        "dashboardURL": "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index"
+    },
+    "admin": {
+        "username": "Admin",
+        "password": "admin123"
+    }
+}
