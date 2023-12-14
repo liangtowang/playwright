@@ -33,6 +33,7 @@ test('test add employee', async ({ page }) => {
   await page.getByRole('button', { name: 'Save' }).click();
 
   // Verify it is saved successfully
+  page.waitForTimeout(10000);
   await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
 });
 
