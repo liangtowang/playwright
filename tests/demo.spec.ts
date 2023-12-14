@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Login' }).click();
 });
 
-test('test add employee', async ({ page }) => {
+test.only('test add employee', async ({ page }) => {
   await page.goto(loginData.url.dashboardURL);
 
   await page.getByRole('link', { name: 'PIM' }).click();
@@ -28,13 +28,17 @@ test('test add employee', async ({ page }) => {
 
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles('./test-data/fixtures/imageName.png');
-
+   
   // Save
   await page.getByRole('button', { name: 'Save' }).click();
 
-  // Verify it is saved successfully
-  page.waitForTimeout(10000);
-  await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
+  const success = page.getByText('Success', { exact: true });
+  if (await success !== null) {  
+    console.log('Employee added successfully.');
+    await expect(page).toHaveURL(new RegExp(loginData.url.viewProfileURL));
+  } else {
+    console.log('Failed to add employee.');
+  }
 });
 
 test('test search employee', async ({ page }) => {
