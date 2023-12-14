@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Login' }).click();
 });
 
-test('test add one employee', async ({ page }) => {
+test.only('test add one employee', async ({ page }) => {
   await page.goto(loginData.url.dashboardURL);
 
   await page.getByRole('link', { name: 'PIM' }).click();
@@ -35,7 +35,7 @@ test('test add one employee', async ({ page }) => {
   await page.locator('form').getByRole('img', { name: 'profile picture' }).click();
 
   const fileChooser = await fileChooserPromise;
-  await fileChooser.setFiles('./test-data/fixtures/imageName.png');
+  await fileChooser.setFiles(testData.user.imagePath);
 
   // Save
   await page.getByRole('button', { name: 'Save' }).click();
@@ -67,7 +67,7 @@ test('test add multiple employees', async ({ page }) => {
     await page.locator('form').getByRole('img', { name: 'profile picture' }).click();
 
     const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles('./test-data/fixtures/imageName.png');
+    await fileChooser.setFiles(employees[i].imagePath);
 
     const idExists = page.getByText('Employee Id already exists', { exact: true });
     if (idExists !== null) {
