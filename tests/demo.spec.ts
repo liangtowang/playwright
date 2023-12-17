@@ -51,8 +51,6 @@ test('test add one employee', async () => {
 test('test add employee details', async () => {
   test.slow();
 
-  // await page.getByPlaceholder('Middle Name').fill('Hello World');
-
   // Nationality
   await page.locator('form').filter({ hasText: 'Employee Full' }).locator('i').nth(1).click();
   await page.getByRole('option', { name: 'Swedish' }).click();
@@ -68,6 +66,7 @@ test('test add employee details', async () => {
   // Gender
   await page.getByText('Male', { exact: true }).check();
 
+  // Save the employee details
   await page.getByRole('button', { name: 'Save' }).first().click();
 
   // Add file
@@ -77,7 +76,7 @@ test('test add employee details', async () => {
   await page.getByPlaceholder('Type comment here').click();
   await page.getByPlaceholder('Type comment here').fill('screenshot');
   
-  // Save
+  // Save the file
   await page.getByRole('button', { name: 'Save' }).nth(2).click();
 });
 
