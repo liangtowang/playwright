@@ -31,6 +31,8 @@ test('test login', async () => {
 
 test('test add one employee', async () => {
   await page.getByRole('link', { name: 'Add Employee' }).click();
+
+  // Add first name and last name
   await page.getByPlaceholder('First Name').fill(testData.user.firstName);
   await page.getByPlaceholder('Last Name').fill(testData.user.lastName);
 
@@ -42,7 +44,41 @@ test('test add one employee', async () => {
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(testData.user.imagePath);
 
+  // Save
   await page.getByRole('button', { name: 'Save' }).click();
+});
+
+test('test add employee details', async () => {
+  test.slow();
+
+  // await page.getByPlaceholder('Middle Name').fill('Hello World');
+
+  // Nationality
+  await page.locator('form').filter({ hasText: 'Employee Full' }).locator('i').nth(1).click();
+  await page.getByRole('option', { name: 'Swedish' }).click();
+  
+  // Marital status
+  await page.locator('form').filter({ hasText: 'Employee Full' }).locator('i').nth(2).click();
+  await page.getByRole('option', { name: 'Married' }).click();
+
+  // Date of birth
+  await page.locator('div').filter({ hasText: /^Date of Birth$/ }).locator('i').click();
+  await page.getByPlaceholder('yyyy-mm-dd').nth(1).fill('1987-08-15');
+
+  // Gender
+  await page.getByText('Male', { exact: true }).check();
+
+  await page.getByRole('button', { name: 'Save' }).first().click();
+
+  // Add file
+  await page.getByRole('button', { name: 'Add' }).click();
+  await page.locator('input[type="file"]').setInputFiles(testData.user.imagePath);
+
+  await page.getByPlaceholder('Type comment here').click();
+  await page.getByPlaceholder('Type comment here').fill('screenshot');
+  
+  // Save
+  await page.getByRole('button', { name: 'Save' }).nth(2).click();
 });
 
 test('test search employee', async () => {
@@ -54,6 +90,9 @@ test('test search employee', async () => {
   await page.getByRole('row', { name: testData.user.firstName }).first().click();
 
   await expect(page.getByRole('heading', { name: testData.user.firstName })).toBeVisible();
+
+  await expect(page.getByPlaceholder('yyyy-mm-dd').nth(1)).toHaveValue('1987-08-15');
+  await expect(page.getByText('Male', { exact: true })).toBeChecked();
 });
 
 test('test add multiple employees', async () => {
