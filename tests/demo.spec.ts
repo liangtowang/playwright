@@ -61,7 +61,7 @@ test('test add employee details', async () => {
 
   // Date of birth
   await page.locator('div').filter({ hasText: /^Date of Birth$/ }).locator('i').click();
-  await page.getByPlaceholder('yyyy-mm-dd').nth(1).fill('1987-08-15');
+  await page.getByPlaceholder('dd-mm-yyyy').nth(1).fill('15-08-1987');
 
   // Gender
   await page.getByText('Male', { exact: true }).check();
@@ -90,7 +90,7 @@ test('test search employee', async () => {
 
   await expect(page.getByRole('heading', { name: testData.user.firstName })).toBeVisible();
 
-  await expect(page.getByPlaceholder('yyyy-mm-dd').nth(1)).toHaveValue('1987-08-15');
+  await expect(page.getByPlaceholder('dd-mm-yyyy').nth(1)).toHaveValue('15-08-1987');
   await expect(page.getByText('Male', { exact: true })).toBeChecked();
 });
 
